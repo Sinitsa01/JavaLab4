@@ -93,6 +93,7 @@ public class GraphicsDisplay extends JPanel {
 
         if (showAxis) paintAxis(canvas);
         paintGraphics(canvas);
+        if (showMarkers) paintMarkers(canvas);
         canvas.setFont(oldFont);
         canvas.setPaint(oldPaint);
         canvas.setColor(oldColor);
@@ -115,7 +116,18 @@ public class GraphicsDisplay extends JPanel {
         }
         canvas.draw(graphics);
     }
-  
+    protected void paintMarkers(Graphics2D canvas) {
+        canvas.setStroke(markerStroke);
+        canvas.setColor(Color.RED);
+        canvas.setPaint(Color.RED);
+        for (Double[] point : graphicsData) {
+            canvas.setColor(Color.RED);
+            Ellipse2D.Double marker = new Ellipse2D.Double();
+            Point2D.Double center = xyToPoint(point[0], point[1]);
+            Point2D.Double corner = shiftPoint(center, 3, 3);
+            marker.setFrameFromCenter(center, corner);
+        }
+    }
     protected void paintAxis(Graphics2D canvas) {
         canvas.setStroke(axisStroke);
         canvas.setColor(Color.BLACK);
