@@ -126,14 +126,53 @@ public class GraphicsDisplay extends JPanel {
             Point2D.Double center = xyToPoint(point[0], point[1]);
             Point2D.Double corner = shiftPoint(center, 3, 3);
             marker.setFrameFromCenter(center, corner);
+
+            canvas.draw(new Line2D.Double(shiftPoint(center, -5, 5), shiftPoint(center, 5, 5)));
+            canvas.draw(new Line2D.Double(shiftPoint(center, -5, -5), shiftPoint(center, 5, -5)));
+            canvas.draw(new Line2D.Double(shiftPoint(center, 5, -5), shiftPoint(center, 5, 5)));
+            canvas.draw(new Line2D.Double(shiftPoint(center, -5, 5), shiftPoint(center, -5, -5)));
+            canvas.draw(new Line2D.Double(shiftPoint(center, -5, 5), shiftPoint(center, 5, -5)));
+            canvas.draw(new Line2D.Double(shiftPoint(center, 5, 5), shiftPoint(center, -5, -5)));
+            
         }
     }
+
+
     protected void paintAxis(Graphics2D canvas) {
         canvas.setStroke(axisStroke);
         canvas.setColor(Color.BLACK);
         canvas.setPaint(Color.BLACK);
         canvas.setFont(axisFont);
         FontRenderContext context = canvas.getFontRenderContext();
+       for(double j=0,i =0;i<maxY-1;i+=0.01*(maxY-minY) ,j++) {
+    	   if(j%5==0)
+    		   canvas.draw(new Line2D.Double(xyToPoint(-0.2, i),
+                       xyToPoint(0.24,i)));
+    	   canvas.draw(new Line2D.Double(xyToPoint(-0.1, i),
+                   xyToPoint(0.14,i)));
+       }
+       for(double j=0,i =0;i>minY;i+=-0.01*(maxY-minY) ,j++) {
+    	   if(j%5==0)
+    		   canvas.draw(new Line2D.Double(xyToPoint(-0.2, i),
+                       xyToPoint(0.24,i)));
+    	   canvas.draw(new Line2D.Double(xyToPoint(-0.1, i),
+                   xyToPoint(0.14,i)));
+       }
+       for(double j=0,i=0;i<maxX-1;i+=0.01*(maxX-minX),j++ ) {
+    	   if(j%5==0)
+    		   canvas.draw(new Line2D.Double(xyToPoint(i,-0.2),
+                       xyToPoint(i,0.24)));  
+    	   canvas.draw(new Line2D.Double(xyToPoint(i,-0.1),
+                   xyToPoint(i,0.14)));
+       }
+       for(double j=0,i=0;i>minX;i+=-0.01*(maxX-minX),j++ ) {
+    	   if(j%5==0)
+    		   canvas.draw(new Line2D.Double(xyToPoint(i,-0.2),
+                       xyToPoint(i,0.24)));  
+    	   canvas.draw(new Line2D.Double(xyToPoint(i,-0.1),
+                   xyToPoint(i,0.14)));
+       }
+       
         if (minX <= 0.0 && maxX >= 0.0) {
             canvas.draw(new Line2D.Double(xyToPoint(0, maxY),
                     xyToPoint(0, minY)));
