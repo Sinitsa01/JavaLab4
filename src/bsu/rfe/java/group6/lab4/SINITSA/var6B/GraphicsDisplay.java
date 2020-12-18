@@ -116,12 +116,20 @@ public class GraphicsDisplay extends JPanel {
         }
         canvas.draw(graphics);
     }
+
+    protected boolean isSpecialPoint(double y) {
+        return (int)y%2!=0;
+    }
+
     protected void paintMarkers(Graphics2D canvas) {
         canvas.setStroke(markerStroke);
         canvas.setColor(Color.RED);
         canvas.setPaint(Color.RED);
         for (Double[] point : graphicsData) {
-            canvas.setColor(Color.RED);
+            if (isSpecialPoint(point[1]) == true)
+                canvas.setColor(Color.GREEN);
+            else
+                canvas.setColor(Color.RED);
             Ellipse2D.Double marker = new Ellipse2D.Double();
             Point2D.Double center = xyToPoint(point[0], point[1]);
             Point2D.Double corner = shiftPoint(center, 3, 3);
@@ -144,6 +152,11 @@ public class GraphicsDisplay extends JPanel {
         canvas.setPaint(Color.BLACK);
         canvas.setFont(axisFont);
         FontRenderContext context = canvas.getFontRenderContext();
+
+      // Point2D.Double labelPos1 = xyToPoint(0, 0);
+      // canvas.drawString("0", (float) labelPos1.getX() , (float) labelPos1.getY());
+
+       
        for(double j=0,i =0;i<maxY-1;i+=0.01*(maxY-minY) ,j++) {
     	   if(j%5==0)
     		   canvas.draw(new Line2D.Double(xyToPoint(-0.2, i),
